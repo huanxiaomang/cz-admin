@@ -18,7 +18,7 @@
         </div>
         <transition-group name="list" tag="ul">
             <Card v-show="Object.keys(msgData).length > 0" v-for="p of showMsgData" :key="p.id" :title="p.title"
-                class="mb-6">
+                class="mb-6" whitespace-pre-wrap>
                 <p>{{ p.content }}</p>
                 <div class="text-sm text-gray-600 pt-5">{{ p.updatedAt.replace('T', ' ').replace('Z', ' ') }}</div>
                 <div class="mr-auto w-fit flex gap-2 pt-3">
