@@ -20,8 +20,8 @@
 
             <Card v-show="Object.keys(projData).length > 0" v-for="p of showProjData" :key="p.id" :title="p.title"
                 class="mb-6">
-                <p>{{p.stack}}</p>
-                <p>{{p.content}}</p>
+                <p>{{ p.stack }}</p>
+                <p>{{ p.content }}</p>
                 <span class="font-bold">成员</span>:
                 <CZAvatar v-for="u of p.members.split(',')" :key="u" :userId="u"></CZAvatar>
                 <div class="text-sm text-gray-600 pt-5">{{ p.updatedAt.replace('T', ' ').replace('Z', ' ') }}</div>
@@ -71,7 +71,7 @@
     </PageWrapper>
 </template>
 <script lang="ts" setup>
-import {  computed, onMounted, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import { Card, Popconfirm, Modal, FormItem, Input, Form, Textarea, Button } from "ant-design-vue";
 import { PageWrapper } from "@/components/Page";
 import CZAvatar from "@/components/cz/CZAvatar.vue";
@@ -80,18 +80,18 @@ import { getProjApi, createProjApi, updateProjApi, removeProjApi } from '@/api/s
 import { ref } from "vue";
 import Icon from "@/components/Icon/Icon.vue";
 import { useMessage } from "@/hooks/web/useMessage";
-import { sortByUpdate } from "@/utils/sortByUpdate";
+import { sortByCreated } from "@/utils/sortByCreated";
 const { notification, /*createErrorModal*/ } = useMessage();
 
 let projData = ref([]);
-let showProjData = computed(() => sortByUpdate(projData.value));
+let showProjData = computed(() => sortByCreated(projData.value));
 
 
 
-onMounted(async() => {
+onMounted(async () => {
     projData.value = (await getProjApi()).data;
-    
-    
+
+
 })
 //const modalText = ref<string>('Content of the modal');
 const open = ref<boolean>(false);
@@ -99,21 +99,21 @@ const confirmLoading = ref<boolean>(false);
 const editingId = ref<number>();
 const formRef = ref();
 interface FormState {
-  title: string;
-  content: string;
-  stack: string;
-  members: string;
+    title: string;
+    content: string;
+    stack: string;
+    members: string;
 }
 
 const formState = reactive<FormState>({
-  title: '',
-  content: '',
-  stack: '',
-  members: '',
+    title: '',
+    content: '',
+    stack: '',
+    members: '',
 });
 
 const showModal = () => {
-  open.value = true;
+    open.value = true;
 };
 
 let isEditingNotAdd = true;
@@ -168,7 +168,7 @@ const handleOk = async () => {
 
 function handleEdit(id: number) {
     const info = projData.value.find((p) => p['id'] === id);
-    if(info){
+    if (info) {
         formState.content = info['content'];
         formState.title = info['title'];
         formState.stack = info['stack'];
@@ -182,9 +182,9 @@ function handleEdit(id: number) {
 
 
 async function handleRemove(id) {
-  const proj = (await removeProjApi(id)).data;
+    const proj = (await removeProjApi(id)).data;
     projData.value = (await getProjApi()).data;
-  
+
     notification.success({
         message: `已删除 (,,•́ . •̀,,) `,
         description: `${proj['title']} 再也没有了`,
@@ -244,5 +244,5 @@ function handleAdd() {
 .members-move {
     transition: transform .5s ease-in-out;
 }
-
 </style>
+@/utils/sortByCreated

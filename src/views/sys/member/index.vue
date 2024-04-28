@@ -21,7 +21,7 @@
                         @click="showUserModal(m)">{{ m.username }}</span>
                 </span>
 
-                <span class="md:inline hidden">{{ m.createdAt.replace('T', ' ').replace('Z', '')}}</span>
+                <span class="md:inline hidden">{{ m.createdAt.replace('T', ' ').replace('Z', '') }}</span>
                 <Select v-model:value="roles[m.userId]" class="w-35" @change="handleChange(Number(m.userId))">
                     <SelectOptGroup>
                         <template #label>
@@ -31,7 +31,7 @@
                                 Member
                             </span>
                         </template>
-                        <SelectOption value="ADMIN" >创智管理员</SelectOption>
+                        <SelectOption value="ADMIN">创智管理员</SelectOption>
                         <SelectOption value="CZ_MEMBER">创智成员</SelectOption>
                     </SelectOptGroup>
                     <SelectOptGroup>
@@ -49,7 +49,7 @@
 </template>
 
 <script setup lang='ts'>
-import { Card,/*Button*/Select,SelectOption,SelectOptGroup } from "ant-design-vue";
+import { Card,/*Button*/Select, SelectOption, SelectOptGroup } from "ant-design-vue";
 import { PageWrapper } from "@/components/Page";
 import { computed, onMounted, ref, /*watchEffect*/ } from "vue";
 import { GetUserInfoModel } from "@/api/sys/model/userModel";
@@ -80,7 +80,7 @@ function updateClassList() {
     }, {});
 }
 
-onMounted(async() => {
+onMounted(async () => {
     members.value = await getAllUser();
     roles.value = members.value.reduce((obj, { userId, role }) => {
         obj[userId] = role;
@@ -94,9 +94,10 @@ onMounted(async() => {
 
 
 const handleChange = async (userId: number) => {
-    
+
     const user = await setUserRole(userId, roles.value[userId]);
     colorList.value[userId] = getUsernameClassByRole(user.role);
 };
 
 </script>
+@/utils/sortByCreated

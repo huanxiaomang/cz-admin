@@ -55,21 +55,21 @@
 import { computed, onMounted, reactive } from "vue";
 import { Card, Popconfirm, Modal, FormItem, Input, Form, Textarea, Button } from "ant-design-vue";
 import { PageWrapper } from "@/components/Page";
-import { createMsgApi,getMsgApi,removeMsgApi,updateMsgApi } from '@/api/sys/message'
+import { createMsgApi, getMsgApi, removeMsgApi, updateMsgApi } from '@/api/sys/message'
 import { ref } from "vue";
 import Icon from "@/components/Icon/Icon.vue";
 import { useMessage } from "@/hooks/web/useMessage";
-import { sortByUpdate } from "@/utils/sortByUpdate";
+import { sortByCreated } from "@/utils/sortByCreated";
 const { notification, /*createErrorModal*/ } = useMessage();
 
 let msgData = ref([]);
-let showMsgData = computed(() => sortByUpdate(msgData.value));
+let showMsgData = computed(() => sortByCreated(msgData.value));
 
 
 
 onMounted(async () => {
     msgData.value = (await getMsgApi()).data;
-    
+
 
 })
 const open = ref<boolean>(false);
@@ -142,7 +142,7 @@ const handleOk = async () => {
 
 function handleEdit(id: number) {
     const info = msgData.value.find((p) => p['id'] === id);
-    if(info){
+    if (info) {
         formState.content = info['content'];
         formState.title = info['title'];
         editingId.value = info['id'];
@@ -152,7 +152,7 @@ function handleEdit(id: number) {
     }
 
 
-    
+
 }
 
 
@@ -197,3 +197,4 @@ function handleAdd() {
     transition: transform .5s ease-in-out;
 }
 </style>
+@/utils/sortByCreated
